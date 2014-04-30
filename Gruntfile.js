@@ -6,6 +6,16 @@ module.exports = function(grunt) {
 grunt.initConfig({
 	pkg: grunt.file.readJSON("package.json"),
 	concat: {
+		options: {
+			banner: "/*!\n" +
+				" * jQuery Validation Plugin v<%= pkg.version %>\n" +
+				" *\n" +
+				" * <%= pkg.homepage  %>\n" +
+				" *\n" +
+				" * Copyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
+				" * Released under the <%= _.pluck(pkg.licenses, 'type').join(', ') %> license\n" +
+				" */\n"
+		},
 		// used to copy to dist folder
 		dist: {
 			files: {
@@ -18,10 +28,10 @@ grunt.initConfig({
 		options: {
 			preserveComments: false,
 			banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " +
-				"<%= grunt.template.today('m/d/yyyy') %>\\n" +
-				"<%= pkg.homepage ? '* ' + pkg.homepage + '\\n' : '' %>" +
-				"* Copyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>;" +
-				" Licensed <%= _.pluck(pkg.licenses, 'type').join(', ') %> */"
+				"<%= grunt.template.today('m/d/yyyy') %>\n" +
+				" * <%= pkg.homepage  %>\n" +
+				" * Copyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>;" +
+				" Licensed <%= _.pluck(pkg.licenses, 'type').join(', ') %> */\n"
 		},
 		all: {
 			files: {

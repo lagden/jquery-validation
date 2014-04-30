@@ -351,9 +351,8 @@ test("extension", function() {
 	ok(!method( "picture.pdf", "gop,top" ), "Invalid custom accept type, comma separated" );
 });
 
-test("remote", function() {
+asyncTest("remote", function() {
 	expect(7);
-	stop();
 	var e = $("#username"),
 		v = $("#userForm").validate({
 			rules: {
@@ -392,10 +391,8 @@ test("remote", function() {
 	strictEqual( v.element(e), true, "still invalid, because remote validation must block until it returns; dependency-mismatch considered as valid though" );
 });
 
-test("remote, customized ajax options", function() {
+asyncTest("remote, customized ajax options", function() {
 	expect(2);
-	stop();
-
 	$("#userForm").validate({
 		rules: {
 			username: {
@@ -424,9 +421,8 @@ test("remote, customized ajax options", function() {
 });
 
 
-test("remote extensions", function() {
+asyncTest("remote extensions", function() {
 	expect(5);
-	stop();
 	var e = $("#username"),
 		v = $("#userForm").validate({
 			rules: {
@@ -460,9 +456,8 @@ test("remote extensions", function() {
 	strictEqual( v.element(e), true, "still invalid, because remote validation must block until it returns; dependency-mismatch considered as valid though" );
 });
 
-test("remote radio correct value sent", function() {
+asyncTest("remote radio correct value sent", function() {
 	expect(1);
-	stop();
 	var e = $("#testForm10Radio2"),
 		v;
 
@@ -486,9 +481,8 @@ test("remote radio correct value sent", function() {
 	v.element(e);
 });
 
-test("remote reset clear old value", function() {
+asyncTest("remote reset clear old value", function() {
 	expect(1);
-	stop();
 	var e = $("#username"),
 		v = $("#userForm").validate({
 			rules: {
@@ -690,28 +684,28 @@ test("iban", function() {
  * BIC tests (For BIC definition take a look on the implementation itself)
  */
 test("bic", function() {
-    var method = methodTest( "bic" );
+	var method = methodTest( "bic" );
 
-    ok( !method( "PBNKDEF" ), "Invalid BIC: too short" );
-    ok( !method( "DEUTDEFFA1" ), "Invalid BIC: disallowed length" );
-    ok( !method( "PBNKDEFFXXX1" ), "Invalid BIC: too long" );
-    ok( !method( "1BNKDEFF" ), "Invalid BIC: invalid digit" );
-    ok( !method( "PBNKDE1F" ), "Invalid BIC: invalid digit" );
-    ok( !method( "PBNKDEF3" ), "Invalid BIC: invalid digit" );
-    ok( !method( "PBNKDEFO" ), "Invalid BIC: invalid char" );
-    ok( !method( "INGDDEFFXAA" ), "Invalid BIC: invalid char" );
-    ok( !method( "DEUTDEF0" ), "Invalid BIC: invalid digit" );
+	ok( !method( "PBNKDEF" ), "Invalid BIC: too short" );
+	ok( !method( "DEUTDEFFA1" ), "Invalid BIC: disallowed length" );
+	ok( !method( "PBNKDEFFXXX1" ), "Invalid BIC: too long" );
+	ok( !method( "1BNKDEFF" ), "Invalid BIC: invalid digit" );
+	ok( !method( "PBNKDE1F" ), "Invalid BIC: invalid digit" );
+	ok( !method( "PBNKDEF3" ), "Invalid BIC: invalid digit" );
+	ok( !method( "PBNKDEFO" ), "Invalid BIC: invalid char" );
+	ok( !method( "INGDDEFFXAA" ), "Invalid BIC: invalid char" );
+	ok( !method( "DEUTDEF0" ), "Invalid BIC: invalid digit" );
 
-    ok( method( "DEUTDEFF" ), "Valid BIC" );
-    ok( method( "DEUTDEFFXXX" ), "Valid BIC" );
-    ok( method( "PBNKDE2F" ), "Valid BIC" );
-    ok( method( "INGDDEFF101" ), "Valid BIC" );
-    ok( method( "INGDDEF2134" ), "Valid BIC" );
-    ok( method( "INGDDE91XXX" ), "Valid BIC" );
-    ok( method( "INGDDEF2" ), "Valid BIC" );
-    ok( method( "AAFFFRP1" ), "Valid BIC" );
-    ok( method( "DEUTDEFFAB1" ), "Valid BIC" );
-    ok( method( "DEUTDEFFAXX" ), "Valid BIC" );
+	ok( method( "DEUTDEFF" ), "Valid BIC" );
+	ok( method( "DEUTDEFFXXX" ), "Valid BIC" );
+	ok( method( "PBNKDE2F" ), "Valid BIC" );
+	ok( method( "INGDDEFF101" ), "Valid BIC" );
+	ok( method( "INGDDEF2134" ), "Valid BIC" );
+	ok( method( "INGDDE91XXX" ), "Valid BIC" );
+	ok( method( "INGDDEF2" ), "Valid BIC" );
+	ok( method( "AAFFFRP1" ), "Valid BIC" );
+	ok( method( "DEUTDEFFAB1" ), "Valid BIC" );
+	ok( method( "DEUTDEFFAXX" ), "Valid BIC" );
 });
 
 test("postcodeUK", function() {
@@ -1188,27 +1182,27 @@ test("rangeWords", function(){
 });
 
 test("currency", function() { // Works with any symbol
-    var method = methodTest( "currency" );
-    ok( method( "£9", "£"), "Symbol no decimal" );
-    ok( method( "£9.9", "£"), "£, one decimal" );
-    ok( method( "£9.99", "£"), "£, two decimal" );
-    ok( method( "£9.90", "£"), "Valid currency" );
-    ok( method( "£9,999.9", "£"), "£, thousand, comma separator, one decimal" );
-    ok( method( "£9,999.99", "£"), "£, thousand, comma separator, two decimal" );
-    ok( method( "£9,999,999.9", "£"), "£, million, comma separators, one decimal" );
-    ok( method( "9", ["£", false]), "Valid currency" );
-    ok( method( "9.9", ["£", false]), "Valid currency" );
-    ok( method( "9.99", ["£", false]), "Valid currency" );
-    ok( method( "9.90", ["£", false]), "Valid currency" );
-    ok( method( "9,999.9", ["£", false]), "Valid currency" );
-    ok( method( "9,999.99", ["£", false]), "Valid currency" );
-    ok( method( "9,999,999.9", ["£", false]), "Valid currency" );
-    ok(!method( "9,", "£"), "Invalid currency" );
-    ok(!method( "9,99.99", "£"), "Invalid currency" );
-    ok(!method( "9,", "£"), "Invalid currency" );
-    ok(!method( "9.999", "£"), "Invalid currency" );
-    ok(!method( "9.999", "£"), "Invalid currency" );
-    ok(!method( "9.99,9", "£"), "Invalid currency" );
+	var method = methodTest( "currency" );
+	ok( method( "£9", "£"), "Symbol no decimal" );
+	ok( method( "£9.9", "£"), "£, one decimal" );
+	ok( method( "£9.99", "£"), "£, two decimal" );
+	ok( method( "£9.90", "£"), "Valid currency" );
+	ok( method( "£9,999.9", "£"), "£, thousand, comma separator, one decimal" );
+	ok( method( "£9,999.99", "£"), "£, thousand, comma separator, two decimal" );
+	ok( method( "£9,999,999.9", "£"), "£, million, comma separators, one decimal" );
+	ok( method( "9", ["£", false]), "Valid currency" );
+	ok( method( "9.9", ["£", false]), "Valid currency" );
+	ok( method( "9.99", ["£", false]), "Valid currency" );
+	ok( method( "9.90", ["£", false]), "Valid currency" );
+	ok( method( "9,999.9", ["£", false]), "Valid currency" );
+	ok( method( "9,999.99", ["£", false]), "Valid currency" );
+	ok( method( "9,999,999.9", ["£", false]), "Valid currency" );
+	ok(!method( "9,", "£"), "Invalid currency" );
+	ok(!method( "9,99.99", "£"), "Invalid currency" );
+	ok(!method( "9,", "£"), "Invalid currency" );
+	ok(!method( "9.999", "£"), "Invalid currency" );
+	ok(!method( "9.999", "£"), "Invalid currency" );
+	ok(!method( "9.99,9", "£"), "Invalid currency" );
 });
 
 })(jQuery);
